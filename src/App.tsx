@@ -43,8 +43,8 @@ function App() {
     mutationFn: (todo) => {
       return patchTodo(todo);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["todos"] });
+    onSuccess: (data) => {
+      queryClient.setQueryData(['todos', {id: data.id}], data)
     },
     onError: () => {
       alert("Edit todo failed");
