@@ -1,11 +1,17 @@
 import { RESOUCE_API } from ".";
 
-const patchTodo = async (title:string, content:string) => {
-  const response = await fetch(RESOUCE_API + "/todo", {
+const patchTodo = async ({
+  id,
+  status,
+}: {
+  id: string;
+  status: string;
+}) => {
+
+  const response = await fetch(RESOUCE_API + "/todo" + `/${id}`, {
     method: "PATCH",
     body: JSON.stringify({
-      title: title,
-      content: content,
+      status: status,
     }),
   });
 

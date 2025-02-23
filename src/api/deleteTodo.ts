@@ -1,7 +1,7 @@
 import { RESOUCE_API } from ".";
 
-const deleteTodo = async (id:number) => {
-  const response = await fetch(RESOUCE_API + "/todo"+`/${id}`, {
+const deleteTodo = async ({ id }: { id: string }) => {
+  const response = await fetch(RESOUCE_API + "/todo" + `/${id}`, {
     method: "DELETE",
   });
 
