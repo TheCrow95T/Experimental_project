@@ -28,23 +28,24 @@ function App() {
   });
 
   const mutatePost = useMutation({
-    mutationFn: (todo) => {
-      return postTodo(todo);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["todos"] });
+    mutationFn: postTodo,
+    onSuccess: (data) => {
+      queryClient.setQueryData(["todos"], [...todoList,data]);
     },
     onError: () => {
       alert("Adding new todo failed");
     },
   });
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    mutatePost.mutate({ title: title, content: content });
+  };
+
   const mutatePatch = useMutation({
-    mutationFn: (todo) => {
-      return patchTodo(todo);
-    },
+    mutationFn: patchTodo,
     onSuccess: (data) => {
-      queryClient.setQueryData(['todos', {id: data.id}], data)
+      queryClient.setQueryData(["todos", { id: data.id }], data);
     },
     onError: () => {
       alert("Edit todo failed");
@@ -52,11 +53,9 @@ function App() {
   });
 
   const mutateDelete = useMutation({
-    mutationFn: (todo) => {
-      return deleteTodo(todo);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["todos"] });
+    mutationFn: deleteTodo,
+    onSuccess: (data) => {
+      queryClient.setQueryData(["todos"], todoList.filter((todo) => todo.id != data.id));
     },
     onError: () => {
       alert("Delete todo failed");
@@ -70,35 +69,38 @@ function App() {
     <>
       {/*
        */}
-      <input
-        type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="Title"
-      />
-      <input
-        type="text"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        placeholder="Content"
-      />
-      <button
-        onClick={(e) => {
-          e.preventDefault();
-          mutatePost.mutate({ title: title, content: content });
-        }}
-      >
-        {mutatePost.isPending ? "Adding new post..." : "Submit"}
-      </button>
+      <form>
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Title"
+        />
+        <input
+          type="text"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          placeholder="Content"
+        />
+        <button onClick={handleSubmit}>
+          {mutatePost.isPending ? "Adding new post..." : "Submit"}
+        </button>
+      </form>
 
       <h2>To-do list</h2>
       {todoList.map((todo: todoType) => {
         return (
           <div key={todo.id} className="p-3 border-amber-900 border-2">
-            <form method="post" onSubmit={(e)=>{
-              e.preventDefault();
-              mutatePatch.mutate({id:todo.id, status:e.target.status.value})
-            }}>
+            <form
+              method="post"
+              onSubmit={(e) => {
+                e.preventDefault();
+                mutatePatch.mutate({
+                  id: todo.id,
+                  status: e.target.status.value,
+                });
+              }}
+            >
               <select name="status" defaultValue={todo.status}>
                 <option value="Todo">Todo</option>
                 <option value="In progress">In Progress</option>
