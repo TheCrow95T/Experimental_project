@@ -1,0 +1,40 @@
+{
+  "todo": [
+    {
+      "id": "qew1",
+      "status": "Done",
+      "title": "Install Linux",
+      "content": "Install Fedora on the laptop"
+    },
+    {
+      "id": "121a",
+      "status": "Done",
+      "title": "Initial Update",
+      "content": "Initial update all packages to latest version"
+    },
+    {
+      "id": "wed5",
+      "status": "In progress",
+      "title": "Setup environment",
+      "content": "Install NVM, neovim, git and configure them"
+    },
+    {
+      "id": "tad1",
+      "status": "Todo",
+      "title": "React Query",
+      "content": "Learn React query by working on CRUD"
+    },
+    {
+      "id": "27td",
+      "status": "Todo",
+      "title": "Tanstack table",
+      "content": "Learn Tanstack table for listing out todo"
+    },
+    {
+      "id": "2ad7",
+      "status": "Todo",
+      "title": "fastAPI",
+      "content": "Learn FastApi for backend and replace this json server"
+    }
+  ]
+}
